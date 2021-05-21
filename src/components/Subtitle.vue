@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     onContextMenu() {
-      this.translatedText = null;
       const text = window.getSelection().toString().trim();
       this.selectedText = text;
       this.translate(this.selectedText);
@@ -57,7 +56,7 @@ export default {
     translate(text) {
       const url = `https://translate.google.com/?op=translate&sl=en&tl=fa&text=${encodeURI(text)}`;
       if (!window.translatorTab || window.translatorTab.closed) {
-        window.translatorTab = window.open('', 'Translate', 'width=480,height=600,menubar=no,location=no,resizable=no,scrollbars=no,status=no');
+        window.translatorTab = window.open('', 'Translate', 'width=480,height=600,menubar=off,location=off,resizable=off,scrollbars=off,status=off');
       }
       window.translatorTab.location = url;
       window.translatorTab.focus();
