@@ -1,23 +1,18 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div
     v-show="parsedContent"
     :class="$style.subtitle"
-    @mouseup="onMouseUp"
+    @contextmenu.prevent="onContextMenu"
   >
     <div
-      class="translated"
-      v-text="translatedText"
-    />
-    <div
       class="content"
-      v-text="parsedContent"
+      v-html="parsedContent"
     />
   </div>
 </template>
 
 <script>
-const translate = (x) => Promise.resolve(x);
-
 export default {
   props: {
     activeCues: {
@@ -28,8 +23,8 @@ export default {
   emits: ['select'],
   data() {
     return {
-      selectedText: null,
-      translatedText: null,
+      selectedText: '',
+      translatorTab: null,
     };
   },
   computed: {
@@ -37,33 +32,35 @@ export default {
       const textContent = this.activeCues.map((cue) => cue.text).join('\n');
       if (!/\w/g.test(textContent)) return '';
       return textContent
-        .replace(/<[^>]+>/g, '');
+        .replace(/<[^>]+>/g, '')
+        .split('\n')
+        .map(
+          (line) => line.split(' ').map(
+            (word) => `<span>${word}</span>`,
+          ).join(' '),
+        ).join('\n');
     },
   },
   watch: {
     parsedContent() {
-      this.selectedText = null;
-    },
-    selectedText(selectedText) {
-      if (!selectedText) {
-        this.translatedText = null;
-        return;
-      }
-      this.translatedText = '...';
-      translate(selectedText).then((res) => {
-        this.translatedText = res;
-      });
+      this.selectedText = '';
     },
   },
   methods: {
-    onMouseUp(event) {
+    onContextMenu() {
       this.translatedText = null;
-      this.selectedText = null;
-      if (event.which === 3) {
-        const text = window.getSelection().toString().trim();
-        this.selectedText = text;
-        this.$emit('select', text);
+      const text = window.getSelection().toString().trim();
+      this.selectedText = text;
+      this.translate(this.selectedText);
+      this.$emit('select', text);
+    },
+    translate(text) {
+      const url = `https://translate.google.com/?op=translate&sl=en&tl=fa&text=${encodeURI(text)}`;
+      if (!window.translatorTab || window.translatorTab.closed) {
+        window.translatorTab = window.open('', 'Translate', 'width=480,height=600,menubar=no,location=no,resizable=no,scrollbars=no,status=no');
       }
+      window.translatorTab.location = url;
+      window.translatorTab.focus();
     },
   },
   style({ className }) {
