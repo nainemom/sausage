@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy": "gh-pages -d dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "serve": "vite preview",
+    "lint": "eslint **/*.{js,vue}",
+    "lint:fix": "npm run lint -- --fix",
+    "deploy": "gh-pages -d dist"
   },
   "author": "Amir Momenian <nainemom@gmail.com>",
   "license": "ISC",
