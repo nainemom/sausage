@@ -2,7 +2,7 @@
   "name": "tomato",
   "version": "0.0.1",
   "description": "Learn Foreign Languages via Movies Subtitle",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,7 +12,6 @@
     "deploy": "gh-pages -d dist"
   },
   "author": "Amir Momenian <nainemom@gmail.com>",
-  "license": "ISC",
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.2.2",
     "@vue/compiler-sfc": "^3.0.11",

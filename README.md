@@ -1,17 +1,10 @@
-<div align="center">
-  <a href="https://nainemom.github.io/win7" target="_blank">
-    <img src="https://raw.githubusercontent.com/nainemom/win7/master/public/favicon.ico" height="150"/>
-    <h1><b> Microsoft Windows 7 Preview on Web </b></h1>
-  </a>
-  <p>Yet another OS preview via web technologies focused on Microsoft Windows 7.<p>
-  <hr />
-  <img src="https://raw.githubusercontent.com/nainemom/win7/master/screen-record.gif" height="281"/>
-</div>
+# Tomato
+Learn Foreign Languages via Movies Subtitle
 
 ## Setup
 ```bash
-git clone https://github.com/nainemom/win7.git # clone the repo
-cd win7 # go to repo directory
+git clone https://github.com/nainemom/tomato.git # clone the repo
+cd tomato # go to repo directory
 npm i # install project dependencies
 npm run dev # start the app on your browser + hot reload
 ```
