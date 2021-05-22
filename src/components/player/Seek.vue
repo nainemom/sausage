@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="$style.range"
+    :class="$style.seek"
     @mouseup="onMouseUp"
   >
     <div class="content">
@@ -47,7 +47,7 @@ export default {
   },
   style({ className }) {
     return [
-      className('range', {
+      className('seek', {
         height: '20px',
         width: '100%',
         cursor: 'pointer',

@@ -50,7 +50,7 @@
       </button>
     </div>
     <div class="progress">
-      <Range
+      <Seek
         :disabled="!!lockedCues.length"
         :length="duration * 10"
         :value="currentTime * 10"
@@ -61,12 +61,12 @@
 </template>
 
 <script>
-import Range from '../common/Range.vue';
+import Seek from './Seek.vue';
 import Icon from '../common/Icon.vue';
 
 export default {
   components: {
-    Range,
+    Seek,
     Icon,
   },
   props: {
