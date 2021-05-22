@@ -1,10 +1,15 @@
 <!-- eslint-disable vue/require-explicit-emits -->
 <template>
-  <div :class="$style.setupForm">
+  <div
+    :class="$style.setupForm"
+    @dragover.prevent
+    @dragenter="onDragEnter"
+    @dragleave="onDragLeave"
+    @drop.prevent="onDrop"
+  >
     <div
       class="form"
-      @dragover.prevent
-      @drop.prevent="onDrop"
+      :class="[dragEnter && 'drag-enter']"
     >
       <input
         ref="file"
@@ -41,7 +46,6 @@
           </button>
         </div>
       </div>
-
       <div class="form-element">
         <div class="title">
           <Icon
@@ -56,7 +60,6 @@
           >
         </div>
       </div>
-
       <div class="form-element">
         <div class="title">
           <Icon
@@ -71,7 +74,6 @@
           >
         </div>
       </div>
-
       <div class="form-element">
         <div class="title">
           <Icon
@@ -107,6 +109,9 @@
             /> Play
           </button>
         </div>
+      </div>
+      <div class="drag-enter-text">
+        Drop Files Here
       </div>
     </div>
   </div>
@@ -174,6 +179,7 @@ export default {
   data() {
     return {
       files: Object.freeze([]),
+      dragEnter: false,
     };
   },
   computed: {
@@ -224,7 +230,16 @@ export default {
     onFileSelect(event) {
       this.addFiles([...event.target.files]);
     },
+    onDragEnter() {
+      this.dragEnter = true;
+    },
+    onDragLeave(e) {
+      if (!e.clientX && !e.clientY) {
+        this.dragEnter = false;
+      }
+    },
     onDrop(event) {
+      this.dragEnter = false;
       this.addFiles([...event.dataTransfer.files]);
     },
     async addFiles(files) {
@@ -302,6 +317,27 @@ export default {
           overflow: 'hidden',
           minWidth: '360px',
           padding: '16px 0',
+          position: 'relative',
+          '&.drag-enter': {
+            border: 'dotted 2px #ccc',
+            '& > *:not(.drag-enter-text)': {
+              visibility: 'hidden',
+            },
+            '& > .drag-enter-text': {
+              fontSize: '1.4rem',
+              display: 'block',
+              width: '100%',
+              textAlign: 'center',
+              position: 'absolute',
+              color: '#333',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+            },
+          },
+          '& > .drag-enter-text': {
+            display: 'none',
+          },
           '& > .line': {
             height: '1px',
             background: '#ccc',
