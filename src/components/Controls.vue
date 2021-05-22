@@ -8,8 +8,8 @@
         @click="prevCue"
       >
         <Icon
-          :size="48"
-          name="skip-previous"
+          :size="42"
+          name="arrow-left"
         />
       </button>
       <button
@@ -17,7 +17,7 @@
         @click="togglePlay"
       >
         <Icon
-          :size="48"
+          :size="42"
           :name="isPaused ? 'play' : 'pause'"
         />
       </button>
@@ -26,7 +26,7 @@
         @click="toggleLock"
       >
         <Icon
-          :size="48"
+          :size="42"
           name="lock-reset"
         />
       </button>
@@ -35,8 +35,17 @@
         @click="nextCue"
       >
         <Icon
-          :size="48"
-          name="skip-next"
+          :size="42"
+          name="arrow-right"
+        />
+      </button>
+      <div class="line" />
+      <button
+        @click="stop"
+      >
+        <Icon
+          :size="42"
+          name="close"
         />
       </button>
     </div>
@@ -81,7 +90,7 @@ export default {
       default: 0,
     },
   },
-  emits: ['togglePlay', 'updateTime'],
+  emits: ['togglePlay', 'updateTime', 'stop'],
   data() {
     return {
       lockedCues: [],
@@ -120,8 +129,8 @@ export default {
     },
     prevCue() {
       const nextCueIndex = this.allCues.findIndex((cue) => cue.startTime >= this.currentTime);
-      if (nextCueIndex > 0) {
-        this.$emit('updateTime', this.allCues[nextCueIndex - 1].startTime);
+      if (nextCueIndex > 0 && this.allCues[nextCueIndex - 2]) {
+        this.$emit('updateTime', this.allCues[nextCueIndex - 2].startTime);
       }
     },
     toggleLock() {
@@ -130,6 +139,9 @@ export default {
     },
     updateTime(newTime) {
       this.$emit('updateTime', newTime);
+    },
+    stop() {
+      this.$emit('stop');
     },
   },
   style({ className }) {
@@ -145,10 +157,17 @@ export default {
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'center',
+          alignItems: 'center',
+          '& > .line': {
+            width: '2px',
+            height: '30px',
+            background: '#333',
+            margin: '0 8px',
+          },
           '& > button': {
             margin: '0 8px',
             cursor: 'pointer',
-            borderRadius: '8px',
+            padding: '10px',
             '&:not(:disabled):hover': {
               background: 'rgba(255, 255, 255, 0.1)',
             },

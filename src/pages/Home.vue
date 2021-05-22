@@ -1,17 +1,29 @@
 <template>
   <FilesSelector
-    v-if="!isPlaying"
+    v-show="!isPlaying"
     v-model:movie="movie"
     v-model:subtitle="subtitle"
+    v-model:subtitle-lang="subtitleLang"
+    v-model:primary-lang="primaryLang"
+    v-model:translator-service="translatorService"
     :class="$style.home"
-    @done="play"
+    @done="togglePlay"
   />
   <Player
-    v-else
+    v-if="isPlaying"
     :class="$style.home"
     :movie="movie"
     :subtitle="subtitle"
+    :subtitle-lang="subtitleLang"
+    :primary-lang="primaryLang"
+    :translator-service="translatorService"
+    @stop="togglePlay"
   />
+  <div>
+    {{ subtitleLang }}
+    {{ primaryLang }}
+    {{ translatorService }}
+  </div>
 </template>
 
 <script>
@@ -25,14 +37,17 @@ export default {
   },
   data() {
     return {
-      movie: null,
-      subtitle: null,
+      movie: undefined,
+      subtitle: undefined,
+      subtitleLang: undefined,
+      primaryLang: undefined,
+      translatorService: undefined,
       isPlaying: false,
     };
   },
   methods: {
-    play() {
-      this.isPlaying = true;
+    togglePlay() {
+      this.isPlaying = !this.isPlaying;
     },
   },
   style({ className }) {

@@ -16,9 +16,6 @@ export default {
       type: Number,
       default: 32,
     },
-    border: {
-      type: Boolean,
-    },
   },
   computed: {
     className() {
@@ -26,7 +23,7 @@ export default {
     },
   },
   style({ className }) {
-    const { size, border } = this;
+    const { size } = this;
     return [
       className('icon', {
         display: 'inline-block',
@@ -34,18 +31,12 @@ export default {
         height: `${size}px`,
         lineHeight: `${size}px`,
         textAlign: 'center',
-        border: 'solid 2px',
-        ...(border ? {
-          borderRadius: `${size}px`,
-          background: 'rgba(0, 0, 0, 0.1)',
-        } : {
-          borderColor: 'transparent',
-        }),
         '& > span': {
-          fontSize: `${size / 1.9}px`,
-          lineHeight: 0,
+          fontSize: `${size}px`,
+          lineHeight: `${size}px`,
+          verticalAlign: 'middle',
           '&:before': {
-            verticalAlign: 'middle',
+            verticalAlign: 'baseline',
           },
         },
       }),

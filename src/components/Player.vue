@@ -25,6 +25,9 @@
     <Subtitle
       :class="$style.subtitle"
       :active-cues="activeCues"
+      :subtitle-lang="subtitleLang"
+      :primary-lang="primaryLang"
+      :translator-service="translatorService"
     />
     <Controls
       :class="$style.controls"
@@ -35,6 +38,7 @@
       :duration="duration"
       @togglePlay="togglePlay"
       @updateTime="updateTime"
+      @stop="stop"
     />
   </div>
 </template>
@@ -57,7 +61,20 @@ export default {
       type: File,
       required: true,
     },
+    subtitleLang: {
+      type: String,
+      required: true,
+    },
+    primaryLang: {
+      type: String,
+      required: true,
+    },
+    translatorService: {
+      type: String,
+      required: true,
+    },
   },
+  emits: ['stop'],
   data() {
     return {
       allCues: [],
@@ -93,6 +110,9 @@ export default {
     },
     onPause() {
       this.isPaused = true;
+    },
+    stop() {
+      this.$emit('stop');
     },
     togglePlay() {
       const { player } = this.$refs;

@@ -19,6 +19,18 @@ export default {
       type: Array,
       default: () => [],
     },
+    subtitleLang: {
+      type: String,
+      required: true,
+    },
+    primaryLang: {
+      type: String,
+      required: true,
+    },
+    translatorService: {
+      type: String,
+      required: true,
+    },
   },
   emits: ['select'],
   data() {
@@ -54,7 +66,12 @@ export default {
       this.$emit('select', text);
     },
     translate(text) {
-      const url = `https://translate.google.com/?op=translate&sl=en&tl=fa&text=${encodeURI(text)}`;
+      let url;
+      if (this.translatorService === 'google') {
+        url = `https://translate.google.com/?op=translate&sl=${this.subtitleLang}&tl=${this.primaryLang}&text=${encodeURI(text)}`;
+      } else { // bing
+        url = `https://bing.com/translator?from=${this.subtitleLang}&to=${this.primaryLang}&text=${text.split(' ').join('+')}`;
+      }
       if (!window.translatorTab || window.translatorTab.closed) {
         window.translatorTab = window.open('', 'Translate', 'width=480,height=600,menubar=off,location=off,resizable=off,scrollbars=off,status=off');
       }
