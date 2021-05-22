@@ -61,8 +61,8 @@
 </template>
 
 <script>
-import Range from './Range.vue';
-import Icon from './Icon.vue';
+import Range from '../common/Range.vue';
+import Icon from '../common/Icon.vue';
 
 export default {
   components: {

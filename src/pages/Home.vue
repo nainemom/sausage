@@ -1,5 +1,5 @@
 <template>
-  <FilesSelector
+  <Config
     v-show="!isPlaying"
     v-model:movie="movie"
     v-model:subtitle="subtitle"
@@ -19,20 +19,15 @@
     :translator-service="translatorService"
     @stop="togglePlay"
   />
-  <div>
-    {{ subtitleLang }}
-    {{ primaryLang }}
-    {{ translatorService }}
-  </div>
 </template>
 
 <script>
-import FilesSelector from '../components/FilesSelector.vue';
-import Player from '../components/Player.vue';
+import Config from '../components/Config.vue';
+import Player from '../components/player/Player.vue';
 
 export default {
   components: {
-    FilesSelector,
+    Config,
     Player,
   },
   data() {

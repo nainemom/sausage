@@ -46,34 +46,18 @@
 <script>
 import Subtitle from './Subtitle.vue';
 import Controls from './Controls.vue';
+import filesConfigProps from '../../mixins/filesConfigProps';
+import subtitleConfigProps from '../../mixins/subtitleConfigProps';
 
 export default {
   components: {
     Subtitle,
     Controls,
   },
-  props: {
-    movie: {
-      type: File,
-      required: true,
-    },
-    subtitle: {
-      type: File,
-      required: true,
-    },
-    subtitleLang: {
-      type: String,
-      required: true,
-    },
-    primaryLang: {
-      type: String,
-      required: true,
-    },
-    translatorService: {
-      type: String,
-      required: true,
-    },
-  },
+  mixins: [
+    filesConfigProps,
+    subtitleConfigProps,
+  ],
   emits: ['stop'],
   data() {
     return {

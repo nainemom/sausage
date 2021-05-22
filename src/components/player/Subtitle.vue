@@ -13,23 +13,16 @@
 </template>
 
 <script>
+import subtitleConfigProps from '../../mixins/subtitleConfigProps';
+
 export default {
+  mixins: [
+    subtitleConfigProps,
+  ],
   props: {
     activeCues: {
       type: Array,
       default: () => [],
-    },
-    subtitleLang: {
-      type: String,
-      required: true,
-    },
-    primaryLang: {
-      type: String,
-      required: true,
-    },
-    translatorService: {
-      type: String,
-      required: true,
     },
   },
   emits: ['select'],

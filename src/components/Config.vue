@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/require-explicit-emits -->
 <template>
   <div :class="$style.setupForm">
     <div
@@ -112,7 +113,9 @@
 </template>
 
 <script>
-import Icon from './Icon.vue';
+import Icon from './common/Icon.vue';
+import filesConfigProps from '../mixins/filesConfigProps';
+import subtitleConfigProps from '../mixins/subtitleConfigProps';
 
 const readSrtContent = (srtFile) => new Promise((resolve, reject) => {
   const reader = new FileReader();
@@ -141,6 +144,10 @@ export default {
   components: {
     Icon,
   },
+  mixins: [
+    filesConfigProps,
+    subtitleConfigProps,
+  ],
   props: {
     subtitle: {
       type: File,
@@ -163,7 +170,7 @@ export default {
       default: null,
     },
   },
-  emits: ['update:subtitle', 'update:movie', 'update:subtitleLang', 'update:primaryLang', 'update:translatorService', 'done'],
+  emits: ['done'],
   data() {
     return {
       files: Object.freeze([]),
