@@ -162,12 +162,12 @@ export default {
             width: '2px',
             height: '30px',
             background: '#333',
-            margin: '0 8px',
+            margin: '0 6px',
           },
           '& > button': {
-            margin: '0 8px',
+            margin: '0 4px',
             cursor: 'pointer',
-            padding: '10px',
+            padding: '8px',
             '&:not(:disabled):hover': {
               background: 'rgba(255, 255, 255, 0.1)',
             },

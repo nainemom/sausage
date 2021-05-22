@@ -48,18 +48,19 @@ export default {
   style({ className }) {
     return [
       className('range', {
-        height: '18px',
+        height: '20px',
         width: '100%',
         cursor: 'pointer',
         position: 'relative',
         '&:hover': {
           '& > .content': {
-            height: '18px',
+            height: '20px',
           },
         },
         '& > .content': {
           background: 'rgba(255, 255, 255, 0.1)',
           height: '4px',
+          transition: 'height 0.1s',
           left: 0,
           width: '100%',
           position: 'absolute',
