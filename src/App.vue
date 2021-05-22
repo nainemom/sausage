@@ -11,11 +11,6 @@ export default {
   components: {
     Home,
   },
-  data() {
-    return {
-      title: undefined,
-    };
-  },
   style({ className, custom }) {
     return [
       className('app', {
