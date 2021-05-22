@@ -85,10 +85,10 @@
             @input="setSubtitleConfigProp('translatorService', $event.target.value)"
           >
             <option value="google">
-              Google Translate
+              Google
             </option>
             <option value="bing">
-              Bing Translate
+              Bing
             </option>
           </select>
         </div>
