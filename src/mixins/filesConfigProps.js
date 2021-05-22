@@ -10,4 +10,9 @@ export default {
       default: null,
     },
   },
+  methods: {
+    setFilesConfigProp(name, value) {
+      this.$emit(`update:${name}`, value);
+    },
+  },
 };

@@ -52,7 +52,7 @@
         <div class="content">
           <input
             :value="subtitleLang"
-            @input="$emit('update:subtitleLang', $event.target.value)"
+            @input="setSubtitleConfigProp('subtitleLang', $event.target.value)"
           >
         </div>
       </div>
@@ -67,7 +67,7 @@
         <div class="content">
           <input
             :value="primaryLang"
-            @input="$emit('update:primaryLang', $event.target.value)"
+            @input="setSubtitleConfigProp('primaryLang', $event.target.value)"
           >
         </div>
       </div>
@@ -82,7 +82,7 @@
         <div class="content">
           <select
             :value="translatorService"
-            @input="$emit('update:translatorService', $event.target.value)"
+            @input="setSubtitleConfigProp('translatorService', $event.target.value)"
           >
             <option value="google">
               Google Translate
@@ -200,21 +200,21 @@ export default {
   },
   watch: {
     movieFile(movie) {
-      this.$emit('update:movie', movie);
+      this.setFilesConfigProp('movie', movie);
     },
     subtitleFile(subtitle) {
-      this.$emit('update:subtitle', subtitle);
+      this.setFilesConfigProp('subtitle', subtitle);
     },
   },
   created() {
     if (!this.primaryLang) {
-      this.$emit('update:primaryLang', 'fa');
+      this.setSubtitleConfigProp('primaryLang', 'fa');
     }
     if (!this.subtitleLang) {
-      this.$emit('update:subtitleLang', 'en');
+      this.setSubtitleConfigProp('subtitleLang', 'en');
     }
     if (!this.translatorService) {
-      this.$emit('update:translatorService', 'google');
+      this.setSubtitleConfigProp('translatorService', 'google');
     }
   },
   methods: {
