@@ -11,6 +11,7 @@
   />
   <Player
     v-if="isPlaying"
+    v-model:current-time="playerCurrentTime"
     :class="$style.home"
     :movie="movie"
     :subtitle="subtitle"
@@ -38,6 +39,7 @@ export default {
       primaryLang: undefined,
       translatorService: undefined,
       isPlaying: false,
+      playerCurrentTime: 0,
     };
   },
   methods: {

@@ -6,7 +6,7 @@
       autoplay
       @play="onPlay"
       @pause="onPause"
-      @timeupdate="onTimeUpdate"
+      @timeupdate="onTimeUpdate($event.target.currentTime)"
     >
       <source
         :src="movieSrc"
@@ -58,14 +58,20 @@ export default {
     filesConfigProps,
     subtitleConfigProps,
   ],
-  emits: ['stop'],
+  props: {
+    currentTime: {
+      type: Number,
+      default: 0,
+    },
+  },
+  emits: ['stop', 'update:currentTime'],
   data() {
     return {
       allCues: [],
       activeCues: [],
       isPaused: false,
-      currentTime: 0,
       duration: 0,
+      started: false,
     };
   },
   computed: {
@@ -76,6 +82,10 @@ export default {
       return URL.createObjectURL(this.subtitle);
     },
   },
+  mounted() {
+    this.updateTime(this.currentTime);
+    this.started = true;
+  },
   methods: {
     onSubtitleTrackLoad(event) {
       this.allCues = Object.freeze([...event.target.track.cues]);
@@ -84,8 +94,10 @@ export default {
       const activeCues = Object.freeze([...event.target.track.activeCues]);
       this.activeCues = activeCues;
     },
-    onTimeUpdate(event) {
-      this.currentTime = event.target.currentTime;
+    onTimeUpdate(newCurrentTime) {
+      if (this.started) {
+        this.$emit('update:currentTime', newCurrentTime);
+      }
     },
     onPlay() {
       const { player } = this.$refs;
