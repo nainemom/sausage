@@ -14,23 +14,10 @@
 
 <script>
 export default {
-  props: {
-    value: {
-      type: Number,
-      default: 0,
-    },
-    length: {
-      type: Number,
-      default: 0,
-    },
-    disabled: {
-      type: Boolean,
-    },
-  },
-  emits: ['input'],
+  inject: ['$player'],
   computed: {
     progressStyle() {
-      const value = (this.value / this.length) * 100;
+      const value = (this.$player.currentTime / this.$player.duration) * 100;
       return {
         transform: `translateX(${-1 * (100 - value)}%)`,
       };
@@ -42,7 +29,7 @@ export default {
         return;
       }
       const newValue = (event.x / event.currentTarget.offsetWidth) * this.length;
-      this.$emit('input', newValue);
+      this.$player.setCurrentTime(newValue);
     },
   },
   style({ className }) {

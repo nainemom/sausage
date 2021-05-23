@@ -7,18 +7,17 @@
     v-model:primary-lang="primaryLang"
     v-model:translator-service="translatorService"
     :class="$style.home"
-    @done="togglePlay"
+    @done="isPlaying = true"
   />
   <Player
     v-if="isPlaying"
-    v-model:current-time="playerCurrentTime"
     :class="$style.home"
     :movie="movie"
     :subtitle="subtitle"
     :subtitle-lang="subtitleLang"
     :primary-lang="primaryLang"
     :translator-service="translatorService"
-    @stop="togglePlay"
+    @stop="isPlaying = false"
   />
 </template>
 
@@ -39,13 +38,7 @@ export default {
       primaryLang: undefined,
       translatorService: undefined,
       isPlaying: false,
-      playerCurrentTime: 0,
     };
-  },
-  methods: {
-    togglePlay() {
-      this.isPlaying = !this.isPlaying;
-    },
   },
   style({ className }) {
     return [

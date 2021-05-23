@@ -4,7 +4,7 @@
   >
     <div class="buttons">
       <button
-        :disabled="!!lockedCues.length"
+        :disabled="!!$player.lockedCues.length"
         @click="prevCue"
       >
         <Icon
@@ -13,16 +13,16 @@
         />
       </button>
       <button
-        :disabled="!!lockedCues.length"
-        @click="togglePlay"
+        :disabled="!!$player.lockedCues.length"
+        @click="$player.togglePlay"
       >
         <Icon
           :size="42"
-          :name="isPaused ? 'play' : 'pause'"
+          :name="$player.isPaused ? 'play' : 'pause'"
         />
       </button>
       <button
-        :disabled="!activeCues.length"
+        :disabled="!$player.activeCues.length"
         @click="toggleLock"
       >
         <Icon
@@ -31,7 +31,7 @@
         />
       </button>
       <button
-        :disabled="!!lockedCues.length"
+        :disabled="!!$player.lockedCues.length"
         @click="nextCue"
       >
         <Icon
@@ -41,7 +41,7 @@
       </button>
       <div class="line" />
       <button
-        @click="stop"
+        @click="$player.stop"
       >
         <Icon
           :size="42"
@@ -50,12 +50,7 @@
       </button>
     </div>
     <div class="progress">
-      <Seek
-        :disabled="!!lockedCues.length"
-        :length="duration * 10"
-        :value="currentTime * 10"
-        @input="updateTime($event / 10)"
-      />
+      <Seek />
     </div>
   </div>
 </template>
@@ -69,79 +64,49 @@ export default {
     Seek,
     Icon,
   },
-  props: {
-    allCues: {
-      type: Array,
-      default: () => [],
-    },
-    activeCues: {
-      type: Array,
-      default: () => [],
-    },
-    isPaused: {
-      type: Boolean,
-    },
-    currentTime: {
-      type: Number,
-      default: 0,
-    },
-    duration: {
-      type: Number,
-      default: 0,
-    },
-  },
-  emits: ['togglePlay', 'updateTime', 'stop'],
-  data() {
-    return {
-      lockedCues: [],
-    };
-  },
+  inject: ['$player'],
   computed: {
     formattedCurrentTime() {
-      return Math.floor(this.currentTime).toString().padStart(4, 0);
+      return Math.floor(this.$player.currentTime).toString().padStart(4, 0);
     },
     formattedDuration() {
-      return Math.floor(this.duration).toString().padStart(4, 0);
+      return Math.floor(this.$player.duration).toString().padStart(4, 0);
     },
   },
   watch: {
-    currentTime(currentTime) {
-      if (this.lockedCues.length) {
-        const startTime = Math.max(...this.lockedCues.map((cue) => cue.startTime));
-        const endTime = Math.min(...this.lockedCues.map((cue) => cue.endTime));
+    // eslint-disable-next-line object-shorthand
+    '$player.currentTime'(currentTime) {
+      if (this.$player.lockedCues.length) {
+        const startTime = Math.max(...this.$player.lockedCues.map((cue) => cue.startTime));
+        const endTime = Math.min(...this.$player.lockedCues.map((cue) => cue.endTime));
         if (currentTime + 1 >= endTime) {
           setTimeout(() => {
-            this.$emit('updateTime', startTime);
+            this.$player.setCurrentTime(startTime);
           }, (endTime - currentTime - 0.1) * 1000);
         }
       }
     },
   },
   methods: {
-    togglePlay() {
-      this.$emit('togglePlay');
-    },
     nextCue() {
-      const nextCue = this.allCues.find((cue) => cue.startTime >= this.currentTime);
+      const nextCue = this.$player.allCues.find((cue) => cue.startTime >= this.$player.currentTime);
       if (nextCue) {
-        this.$emit('updateTime', nextCue.startTime);
+        this.$player.setCurrentTime(nextCue.startTime);
       }
     },
     prevCue() {
-      const nextCueIndex = this.allCues.findIndex((cue) => cue.startTime >= this.currentTime);
-      if (nextCueIndex > 0 && this.allCues[nextCueIndex - 2]) {
-        this.$emit('updateTime', this.allCues[nextCueIndex - 2].startTime);
+      const nextCueIndex = this.$player.allCues
+        .findIndex((cue) => cue.startTime >= this.$player.currentTime);
+      if (nextCueIndex > 0 && this.$player.allCues[nextCueIndex - 2]) {
+        this.$player.setCurrentTime(this.$player.allCues[nextCueIndex - 2].startTime);
       }
     },
     toggleLock() {
-      if (!this.activeCues.length) return;
-      this.lockedCues = this.lockedCues.length ? [] : this.activeCues;
-    },
-    updateTime(newTime) {
-      this.$emit('updateTime', newTime);
-    },
-    stop() {
-      this.$emit('stop');
+      if (this.$player.lockedCues.length) {
+        this.$player.unlockCues();
+      } else {
+        this.$player.lockCues();
+      }
     },
   },
   style({ className }) {

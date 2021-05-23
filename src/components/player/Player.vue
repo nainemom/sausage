@@ -3,10 +3,9 @@
     <video
       ref="player"
       :class="$style.player"
-      autoplay
-      @play="onPlay"
-      @pause="onPause"
-      @timeupdate="onTimeUpdate($event.target.currentTime)"
+      @play="onPlayerStateUpdate"
+      @pause="onPlayerStateUpdate"
+      @timeupdate="onPlayerStateUpdate"
     >
       <source
         :src="movieSrc"
@@ -22,24 +21,8 @@
         @cuechange="onCueChange"
       >
     </video>
-    <Subtitle
-      :class="$style.subtitle"
-      :active-cues="activeCues"
-      :subtitle-lang="subtitleLang"
-      :primary-lang="primaryLang"
-      :translator-service="translatorService"
-    />
-    <Controls
-      :class="$style.controls"
-      :all-cues="allCues"
-      :active-cues="activeCues"
-      :is-paused="isPaused"
-      :current-time="currentTime"
-      :duration="duration"
-      @togglePlay="togglePlay"
-      @updateTime="updateTime"
-      @stop="stop"
-    />
+    <Subtitle :class="$style.subtitle" />
+    <Controls :class="$style.controls" />
   </div>
 </template>
 
@@ -58,20 +41,20 @@ export default {
     filesConfigProps,
     subtitleConfigProps,
   ],
-  props: {
-    currentTime: {
-      type: Number,
-      default: 0,
-    },
+  provide() {
+    return {
+      $player: this,
+    };
   },
-  emits: ['stop', 'update:currentTime'],
+  emits: ['stop'],
   data() {
     return {
       allCues: [],
       activeCues: [],
+      lockedCues: [],
       isPaused: false,
       duration: 0,
-      started: false,
+      currentTime: 0,
     };
   },
   computed: {
@@ -83,8 +66,11 @@ export default {
     },
   },
   mounted() {
-    this.updateTime(this.currentTime);
-    this.started = true;
+    const { player } = this.$refs;
+    const lastSavedCurrentTime = window[`${this.movie.name}:${this.duration}`];
+    this.currentTime = typeof lastSavedCurrentTime === 'number' ? lastSavedCurrentTime : 0;
+    this.duration = player.duration;
+    this.play();
   },
   methods: {
     onSubtitleTrackLoad(event) {
@@ -94,33 +80,45 @@ export default {
       const activeCues = Object.freeze([...event.target.track.activeCues]);
       this.activeCues = activeCues;
     },
-    onTimeUpdate(newCurrentTime) {
-      if (this.started) {
-        this.$emit('update:currentTime', newCurrentTime);
-      }
-    },
-    onPlay() {
+    onPlayerStateUpdate() {
       const { player } = this.$refs;
-      this.duration = player.duration;
-      this.isPaused = false;
-    },
-    onPause() {
-      this.isPaused = true;
+      this.isPaused = player.paused;
+      this.currentTime = player.currentTime;
+      window[`${this.movie.name}:${this.duration}`] = player.currentTime;
     },
     stop() {
       this.$emit('stop');
     },
-    togglePlay() {
+    play() {
+      const { player } = this.$refs;
+      if (player.paused) {
+        player.play();
+        return true;
+      }
+      return false;
+    },
+    pause() {
       const { player } = this.$refs;
       if (!player.paused) {
         player.pause();
-      } else {
-        player.play();
+        return true;
+      }
+      return false;
+    },
+    togglePlay() {
+      const isPlayed = this.play();
+      if (!isPlayed) {
+        this.pause();
       }
     },
-    updateTime(newTime) {
-      const { player } = this.$refs;
-      player.currentTime = newTime;
+    setCurrentTime(newTime) {
+      this.$refs.player.currentTime = newTime; // this will cause onPlayerStateUpdate
+    },
+    lockCues() {
+      this.lockedCues = this.activeCues;
+    },
+    unlockCues() {
+      this.lockedCues = [];
     },
   },
   style({ className }) {

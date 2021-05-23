@@ -3,42 +3,29 @@
   <div
     v-show="parsedContent"
     :class="$style.subtitle"
-    @contextmenu.prevent="onContextMenu"
   >
     <div
       ref="content"
       class="content"
-      v-html="parsedContent"
       @pointerdown="onPointerDown"
       @pointermove="onPointerMove"
+      v-html="parsedContent"
     />
   </div>
 </template>
 
 <script>
-import subtitleConfigProps from '../../mixins/subtitleConfigProps';
-
 export default {
-  mixins: [
-    subtitleConfigProps,
-  ],
-  props: {
-    activeCues: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  emits: ['select'],
+  inject: ['$player'],
   data() {
     return {
       selectedText: '',
-      translatorTab: null,
       selecting: false,
     };
   },
   computed: {
     parsedContent() {
-      const textContent = this.activeCues.map((cue) => cue.text).join('\n');
+      const textContent = this.$player.activeCues.map((cue) => cue.text).join('\n');
       if (!/\w/g.test(textContent)) return '';
       return textContent
         .replace(/<[^>]+>/g, '')
@@ -61,6 +48,7 @@ export default {
       this.firstSelectedWord = e.target;
       e.target.classList.add('hover');
       window.addEventListener('pointerup', this.onPointerUp, true);
+      this.$player.lockCues();
     },
     onPointerMove(e) {
       if (this.selecting && this.$refs.content.contains(e.target)) {
@@ -90,12 +78,6 @@ export default {
         this.translate(text.trim());
       }
       this.selecting = false;
-    },
-    onContextMenu() {
-      const text = window.getSelection().toString().trim();
-      this.selectedText = text;
-      this.translate(this.selectedText);
-      this.$emit('select', text);
     },
     translate(text) {
       let url;
