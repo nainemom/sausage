@@ -66,9 +66,13 @@ export default {
     },
   },
   mounted() {
-    const lastSavedCurrentTime = window[`${this.movie.name}`];
-    this.currentTime = typeof lastSavedCurrentTime === 'number' ? lastSavedCurrentTime : 0;
     this.play();
+    const lastSavedCurrentTime = window[`${this.movie.name}`];
+    if (typeof lastSavedCurrentTime === 'number') {
+      this.$nextTick(() => {
+        this.setCurrentTime(lastSavedCurrentTime);
+      });
+    }
   },
   methods: {
     onSubtitleTrackLoad(event) {
