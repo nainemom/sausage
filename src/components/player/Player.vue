@@ -66,10 +66,8 @@ export default {
     },
   },
   mounted() {
-    const { player } = this.$refs;
-    const lastSavedCurrentTime = window[`${this.movie.name}:${this.duration}`];
+    const lastSavedCurrentTime = window[`${this.movie.name}`];
     this.currentTime = typeof lastSavedCurrentTime === 'number' ? lastSavedCurrentTime : 0;
-    this.duration = player.duration;
     this.play();
   },
   methods: {
@@ -84,7 +82,8 @@ export default {
       const { player } = this.$refs;
       this.isPaused = player.paused;
       this.currentTime = player.currentTime;
-      window[`${this.movie.name}:${this.duration}`] = player.currentTime;
+      this.duration = player.duration;
+      window[`${this.movie.name}`] = player.currentTime;
     },
     stop() {
       this.$emit('stop');

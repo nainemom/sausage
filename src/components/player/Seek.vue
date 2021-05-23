@@ -1,7 +1,8 @@
 <template>
   <div
+    ref="seek"
     :class="$style.seek"
-    @mouseup="onMouseUp"
+    @pointerup="onPointerUp"
   >
     <div class="content">
       <div
@@ -24,12 +25,12 @@ export default {
     },
   },
   methods: {
-    onMouseUp(event) {
+    onPointerUp(e) {
       if (this.disabled) {
         return;
       }
-      const newValue = (event.x / event.currentTarget.offsetWidth) * this.length;
-      this.$player.setCurrentTime(newValue);
+      const newValue = (e.x / this.$refs.seek.offsetWidth) * this.$player.duration;
+      this.$player.setCurrentTime(Number((newValue).toFixed(2)));
     },
   },
   style({ className }) {
