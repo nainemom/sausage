@@ -299,6 +299,7 @@ export default {
           },
           '&:disabled': {
             cursor: 'not-allowed',
+            fill: '#888',
             color: '#888',
           },
         },
@@ -353,6 +354,7 @@ export default {
             },
             '& > .title': {
               color: '#555',
+              fill: '#555',
               flexGrow: 1,
             },
             '& > .content': {

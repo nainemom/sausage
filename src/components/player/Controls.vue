@@ -153,6 +153,7 @@ export default {
         flexDirection: 'column',
         alignItems: 'center',
         color: '#fff',
+        fill: '#fff',
         '& > .buttons': {
           display: 'flex',
           flexDirection: 'row',

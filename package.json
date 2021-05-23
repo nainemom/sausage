@@ -23,7 +23,6 @@
     "vite": "^2.3.3"
   },
   "dependencies": {
-    "@mdi/font": "^5.9.55",
     "vue": "^3.0.11",
     "vue-component-style": "^1.1.0"
   }
