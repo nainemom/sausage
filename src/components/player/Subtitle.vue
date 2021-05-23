@@ -8,7 +8,6 @@
       ref="content"
       class="content"
       @pointerdown="onPointerDown"
-      @pointermove="onPointerMove"
       v-html="parsedContent"
     />
   </div>
@@ -19,7 +18,6 @@ export default {
   inject: ['$player'],
   data() {
     return {
-      selectedText: '',
       selecting: false,
     };
   },
@@ -37,36 +35,42 @@ export default {
         ).join('\n');
     },
   },
-  watch: {
-    parsedContent() {
-      this.selectedText = '';
-    },
-  },
   methods: {
     onPointerDown(e) {
       this.selecting = true;
       this.firstSelectedWord = e.target;
       e.target.classList.add('hover');
       window.addEventListener('pointerup', this.onPointerUp, true);
+      window.addEventListener('pointermove', this.onPointerMove, true);
       this.$player.lockCues();
     },
     onPointerMove(e) {
-      if (this.selecting && this.$refs.content.contains(e.target)) {
-        let add = false;
-        [...this.$refs.content.children].forEach((child) => {
-          if (child === this.firstSelectedWord) {
-            add = true;
-          }
-          child.classList[add ? 'add' : 'remove']('hover');
-          if (child === e.target) {
-            add = false;
-          }
-        });
+      if (!this.selecting) return;
+      const children = [...this.$refs.content.children];
+      if (!children.includes(e.target)) return;
+      let add = false;
+      let firstWord = this.firstSelectedWord;
+      let lastWord = e.target;
+      if (children.indexOf(firstWord) > children.indexOf(lastWord)) {
+        const swapTmp = firstWord;
+        firstWord = lastWord;
+        lastWord = swapTmp;
       }
+
+      children.forEach((child) => {
+        if (child === firstWord) {
+          add = true;
+        }
+        child.classList[add ? 'add' : 'remove']('hover');
+        if (child === lastWord) {
+          add = false;
+        }
+      });
     },
     onPointerUp(e) {
       const { content: contentRef } = this.$refs;
       window.removeEventListener('pointerup', this.onPointerUp, true);
+      window.removeEventListener('pointermove', this.onPointerMove, true);
       let text = '';
       [...contentRef.children].forEach((child) => {
         if (child.classList.contains('hover')) {
