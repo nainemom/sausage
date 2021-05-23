@@ -1,7 +1,6 @@
 <template>
   <div :class="$style.icon">
     <span :class="className" />
-    <!-- <i :class="name" /> -->
   </div>
 </template>
 
