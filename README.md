@@ -1,10 +1,10 @@
-# Tomato
+# Sausage
 Learn Foreign Languages via Movies Subtitle
 
 ## Setup
 ```bash
-git clone https://github.com/nainemom/tomato.git # clone the repo
-cd tomato # go to repo directory
+git clone https://github.com/nainemom/sausage.git # clone the repo
+cd sausage # go to repo directory
 npm i # install project dependencies
 npm run dev # start the app on your browser + hot reload
 ```
