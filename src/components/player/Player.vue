@@ -80,10 +80,12 @@ export default {
     },
     onPlayerStateUpdate() {
       const { player } = this.$refs;
-      this.isPaused = player.paused;
-      this.currentTime = player.currentTime;
-      this.duration = player.duration;
-      window[`${this.movie.name}`] = player.currentTime;
+      if (player) {
+        this.isPaused = player.paused;
+        this.currentTime = player.currentTime;
+        this.duration = player.duration;
+        window[`${this.movie.name}`] = player.currentTime;
+      }
     },
     stop() {
       this.$emit('stop');
