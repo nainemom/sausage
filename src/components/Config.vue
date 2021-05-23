@@ -117,7 +117,10 @@
         </div>
       </div>
       <div class="drag-enter-text">
-        Drop Files Here
+        <Icon
+          :size="36"
+          name="upload"
+        /> Drop Files Here
       </div>
     </div>
   </div>
@@ -336,7 +339,8 @@ export default {
               width: '100%',
               textAlign: 'center',
               position: 'absolute',
-              color: '#333',
+              color: '#444',
+              fill: '#444',
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
