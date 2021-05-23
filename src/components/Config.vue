@@ -27,7 +27,10 @@
           <button
             @click="openFileSelectorDialog"
           >
-            {{ movieFile ? miniFileNames.movie : 'Browse...' }}
+            <Icon
+              :size="22"
+              name="folder-outline"
+            /> {{ movieFile ? miniFileNames.movie : 'Browse...' }}
           </button>
         </div>
       </div>
@@ -42,7 +45,10 @@
           <button
             @click="openFileSelectorDialog"
           >
-            {{ subtitleFile ? miniFileNames.subtitle : 'Browse...' }}
+            <Icon
+              :size="22"
+              name="folder-outline"
+            /> {{ subtitleFile ? miniFileNames.subtitle : 'Browse...' }}
           </button>
         </div>
       </div>
