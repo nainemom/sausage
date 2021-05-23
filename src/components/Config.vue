@@ -102,7 +102,7 @@
         </div>
       </div>
       <div class="line" />
-      <div class="form-element">
+      <div class="form-element last">
         <div class="title" />
         <div class="content">
           <button
@@ -359,7 +359,7 @@ export default {
             flexDirection: 'row',
             alignItems: 'center',
             padding: '0 16px',
-            '&:not(:last-child)': {
+            '&:not(.last)': {
               marginBottom: '16px',
             },
             '& > .title': {
