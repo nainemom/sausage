@@ -363,8 +363,8 @@ export default {
               marginBottom: '16px',
             },
             '& > .title': {
-              color: '#555',
-              fill: '#555',
+              color: '#444',
+              fill: '#444',
               flexGrow: 1,
             },
             '& > .content': {
