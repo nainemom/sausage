@@ -16,14 +16,8 @@ export default {
   },
   data() {
     return {
-      iconSrc: null,
       svgContent: null,
     };
-  },
-  computed: {
-    className() {
-      return `mdi mdi-${this.name}`;
-    },
   },
   async mounted() {
     const { default: src } = await import(`../../assets/icons/${this.name}.svg`);
@@ -31,9 +25,20 @@ export default {
     const svgContent = await res.text();
     this.$el.innerHTML = svgContent;
   },
-  style({ className }) {
+  style({ className, keyFrames }) {
     const { size } = this;
     return [
+      keyFrames('loadingAnimation', {
+        '0%': {
+          opacity: 1,
+        },
+        '50%': {
+          opacity: 0,
+        },
+        '100%': {
+          opacity: 1,
+        },
+      }),
       className('icon', {
         display: 'inline-block',
         width: `${size}px`,
@@ -41,6 +46,16 @@ export default {
         lineHeight: `${size}px`,
         verticalAlign: 'middle',
         marginBottom: `${this.size / 8}px`,
+        '&:empty': {
+          '&::before': {
+            content: '"-"',
+            animationName: keyFrames('loadingAnimation'),
+            animationDuration: '0.6s',
+            fontWeight: 'bold',
+            animationIterationCount: 'infinite',
+          },
+          borderRadius: '100%',
+        },
         '& > svg': {
           width: '100%',
           height: '100%',
