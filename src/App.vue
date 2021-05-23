@@ -1,5 +1,8 @@
 <template>
-  <div :class="$style.app">
+  <div
+    :class="$style.app"
+    @contextmenu.prevent
+  >
     <Home />
   </div>
 </template>
