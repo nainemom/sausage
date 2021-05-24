@@ -135,6 +135,12 @@
         /> Drop Files Here
       </div>
     </div>
+    <div class="github">
+      Github Repo: <a
+        href="https://github.com/nainemom/sausage"
+        target="__blank"
+      > Sausage </a>
+    </div>
   </div>
 </template>
 
@@ -301,6 +307,15 @@ export default {
         justifyContent: 'center',
         fontSize: '1rem',
         background: '#eee',
+        '& .github': {
+          position: 'fixed',
+          right: 0,
+          bottom: 0,
+          padding: '16px',
+          '& a': {
+            textDecoration: 'underline',
+          },
+        },
         '& input[type="file"]': {
           display: 'none',
         },
