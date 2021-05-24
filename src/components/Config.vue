@@ -7,6 +7,18 @@
     @dragleave="onDragLeave"
     @drop.prevent="onDrop"
   >
+    <div class="header">
+      <div>
+        <Icon
+          :size="48"
+          name="logo"
+        />
+      </div>
+      <div>
+        <h1> Sausage </h1>
+        <p> Learn Foreign Languages via Movies Subtitle </p>
+      </div>
+    </div>
     <div
       class="form"
       :class="[dragEnter && 'drag-enter']"
@@ -284,6 +296,7 @@ export default {
     return [
       className('setupForm', {
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: '1rem',
@@ -321,15 +334,37 @@ export default {
         '& input': {
           width: '76px',
         },
+        '& > .header': {
+          width: '360px',
+          maxWidth: '360px',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          marginBottom: '8px',
+          '& > div:first-child': {
+            marginRight: '8px',
+          },
+          '& > div:last-child': {
+            flexGrow: 1,
+          },
+          '& h1': {
+            fontSize: '1.3rem',
+            marginBottom: '3px',
+          },
+          '& p': {
+            fontSize: '0.9rem',
+            color: '#555',
+          },
+        },
         '& > .form': {
           background: '#fff',
           border: 'solid 1px #ccc',
           overflow: 'hidden',
-          minWidth: '360px',
+          width: '360px',
           padding: '16px 0',
           position: 'relative',
           '&.drag-enter': {
-            border: 'dotted 2px #ccc',
+            border: 'dotted 1px #ccc',
             '& > *:not(.drag-enter-text)': {
               visibility: 'hidden',
             },
