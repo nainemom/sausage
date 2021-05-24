@@ -1,1 +1,1 @@
-export default"/assets/translate.deec7e86.svg";
+export default"/sausage/assets/translate.deec7e86.svg";

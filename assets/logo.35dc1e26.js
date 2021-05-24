@@ -1,1 +1,1 @@
-export default"/assets/logo.8a93e6fc.svg";
+export default"/sausage/assets/logo.8a93e6fc.svg";

@@ -1,1 +1,1 @@
-export default"/assets/play.2ec6fbda.svg";
+export default"/sausage/assets/play.2ec6fbda.svg";

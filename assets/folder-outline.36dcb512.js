@@ -1,1 +1,1 @@
-export default"/assets/folder-outline.1cb39506.svg";
+export default"/sausage/assets/folder-outline.1cb39506.svg";
