@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  inject: ['$player'],
+  inject: ['$player', '$app'],
   data() {
     return {
       selecting: false,
@@ -85,10 +85,10 @@ export default {
     },
     translate(text) {
       let url;
-      if (this.translatorService === 'google') {
-        url = `https://translate.google.com/?op=translate&sl=${this.subtitleLang}&tl=${this.primaryLang}&text=${encodeURI(text)}`;
+      if (this.$app.translatorService === 'google') {
+        url = `https://translate.google.com/?op=translate&sl=${this.$app.subtitleLang}&tl=${this.$app.primaryLang}&text=${encodeURI(text)}`;
       } else { // bing
-        url = `https://bing.com/translator?from=${this.subtitleLang}&to=${this.primaryLang}&text=${text.split(' ').join('+')}`;
+        url = `https://bing.com/translator?from=${this.$app.subtitleLang}&to=${this.$app.primaryLang}&text=${text.split(' ').join('+')}`;
       }
       if (!window.translatorTab || window.translatorTab.closed) {
         window.translatorTab = window.open('', 'Translate', 'width=480,height=600,menubar=off,location=off,resizable=off,scrollbars=off,status=off');

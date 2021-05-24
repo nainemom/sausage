@@ -29,23 +29,18 @@
 <script>
 import Subtitle from './Subtitle.vue';
 import Controls from './Controls.vue';
-import filesConfigProps from '../../mixins/filesConfigProps';
-import subtitleConfigProps from '../../mixins/subtitleConfigProps';
 
 export default {
   components: {
     Subtitle,
     Controls,
   },
-  mixins: [
-    filesConfigProps,
-    subtitleConfigProps,
-  ],
   provide() {
     return {
       $player: this,
     };
   },
+  inject: ['$app'],
   emits: ['stop'],
   data() {
     return {
@@ -59,15 +54,15 @@ export default {
   },
   computed: {
     movieSrc() {
-      return URL.createObjectURL(this.movie);
+      return URL.createObjectURL(this.$app.movie);
     },
     subtitleSrc() {
-      return URL.createObjectURL(this.subtitle);
+      return URL.createObjectURL(this.$app.subtitle);
     },
   },
   mounted() {
     this.play();
-    const lastSavedCurrentTime = window[`${this.movie.name}`];
+    const lastSavedCurrentTime = window[`${this.$app.movie.name}`];
     if (typeof lastSavedCurrentTime === 'number') {
       this.$nextTick(() => {
         this.setCurrentTime(lastSavedCurrentTime);
@@ -88,7 +83,7 @@ export default {
         this.isPaused = player.paused;
         this.currentTime = player.currentTime;
         this.duration = player.duration;
-        window[`${this.movie.name}`] = player.currentTime;
+        window[`${this.$app.movie.name}`] = player.currentTime;
       }
     },
     stop() {

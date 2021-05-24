@@ -73,8 +73,7 @@
         </div>
         <div class="content">
           <input
-            :value="subtitleLang"
-            @input="setSubtitleConfigProp('subtitleLang', $event.target.value)"
+            v-model="$app.subtitleLang"
           >
         </div>
       </div>
@@ -87,8 +86,7 @@
         </div>
         <div class="content">
           <input
-            :value="primaryLang"
-            @input="setSubtitleConfigProp('primaryLang', $event.target.value)"
+            v-model="$app.primaryLang"
           >
         </div>
       </div>
@@ -101,8 +99,7 @@
         </div>
         <div class="content">
           <select
-            :value="translatorService"
-            @input="setSubtitleConfigProp('translatorService', $event.target.value)"
+            v-model="$app.translatorService"
           >
             <option value="google">
               Google
@@ -146,8 +143,6 @@
 
 <script>
 import Icon from './common/Icon.vue';
-import filesConfigProps from '../mixins/filesConfigProps';
-import subtitleConfigProps from '../mixins/subtitleConfigProps';
 
 const readSrtContent = (srtFile) => new Promise((resolve, reject) => {
   const reader = new FileReader();
@@ -176,32 +171,7 @@ export default {
   components: {
     Icon,
   },
-  mixins: [
-    filesConfigProps,
-    subtitleConfigProps,
-  ],
-  props: {
-    subtitle: {
-      type: File,
-      default: null,
-    },
-    movie: {
-      type: File,
-      default: null,
-    },
-    subtitleLang: {
-      type: String,
-      default: null,
-    },
-    primaryLang: {
-      type: String,
-      default: null,
-    },
-    translatorService: {
-      type: String,
-      default: null,
-    },
-  },
+  inject: ['$app'],
   emits: ['done'],
   data() {
     return {
@@ -233,22 +203,11 @@ export default {
   },
   watch: {
     movieFile(movie) {
-      this.setFilesConfigProp('movie', movie);
+      this.$app.movie = movie;
     },
     subtitleFile(subtitle) {
-      this.setFilesConfigProp('subtitle', subtitle);
+      this.$app.subtitle = subtitle;
     },
-  },
-  created() {
-    if (!this.primaryLang) {
-      this.setSubtitleConfigProp('primaryLang', 'fa');
-    }
-    if (!this.subtitleLang) {
-      this.setSubtitleConfigProp('subtitleLang', 'en');
-    }
-    if (!this.translatorService) {
-      this.setSubtitleConfigProp('translatorService', 'google');
-    }
   },
   methods: {
     openFileSelectorDialog() {
