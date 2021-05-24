@@ -284,6 +284,7 @@ export default {
           padding: '0 12px',
           lineHeight: '36px',
           appearance: 'none',
+          whiteSpace: 'nowrap',
         },
         '& button': {
           cursor: 'pointer',
