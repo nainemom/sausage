@@ -9,7 +9,7 @@
     "serve": "vite preview",
     "lint": "eslint **/*.{js,vue}",
     "lint:fix": "npm run lint -- --fix",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build -- --base=/win7/ && gh-pages -d dist"
   },
   "author": "Amir Momenian <nainemom@gmail.com>",
   "devDependencies": {
