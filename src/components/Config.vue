@@ -229,10 +229,10 @@ export default {
       this.addFiles([...event.dataTransfer.files]);
     },
     async addFiles(files) {
-      const subtitles = files.filter((file) => file.type === 'text/vtt');
-      const movies = files.filter((file) => ['video/x-matroska', 'video/mp4'].includes(file.type));
+      const subtitles = files.filter((file) => file.type === 'text/vtt' || file.name.endsWith('.vtt'));
+      const movies = files.filter((file) => ['video/x-matroska', 'video/mp4'].includes(file.type) || file.name.endsWith('.mkv') || file.name.endsWith('.mp4'));
 
-      const srtSubtitles = files.filter((file) => file.type === 'application/x-subrip');
+      const srtSubtitles = files.filter((file) => file.name.endsWith('.srt') || file.type === 'application/x-subrip');
 
       subtitles.push(
         ...(await Promise.all(
