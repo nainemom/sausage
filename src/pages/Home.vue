@@ -1,22 +1,12 @@
 <template>
   <Config
     v-show="!isPlaying"
-    v-model:movie="movie"
-    v-model:subtitle="subtitle"
-    v-model:subtitle-lang="subtitleLang"
-    v-model:primary-lang="primaryLang"
-    v-model:translator-service="translatorService"
     :class="$style.home"
     @done="isPlaying = true"
   />
   <Player
     v-if="isPlaying"
     :class="$style.home"
-    :movie="movie"
-    :subtitle="subtitle"
-    :subtitle-lang="subtitleLang"
-    :primary-lang="primaryLang"
-    :translator-service="translatorService"
     @stop="isPlaying = false"
   />
 </template>
