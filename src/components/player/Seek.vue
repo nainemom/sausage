@@ -46,7 +46,7 @@ export default {
           },
         },
         '& > .content': {
-          background: 'rgba(255, 255, 255, 0.1)',
+          background: '#222',
           height: '4px',
           transition: 'height 0.1s',
           left: 0,
@@ -60,7 +60,6 @@ export default {
             height: '100%',
             left: 0,
             position: 'absolute',
-            boxShadow: '3px 0 2px #000',
             width: '100%',
           },
         },

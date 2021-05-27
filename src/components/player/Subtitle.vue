@@ -118,20 +118,17 @@ export default {
           textAlign: 'center',
         },
         '& > .content': {
-          background: 'rgba(0, 0, 0, 0.4)',
+          background: 'rgba(0, 0, 0, 0.5)',
           color: '#fff',
-          '&:hover > span': {
-            opacity: 0.4,
-          },
           '& > span': {
             padding: '4px 8px',
             cursor: 'pointer',
+            borderBottom: 'solid 1px transparent',
+            textShadow: '0px 0 2px #000',
             '&:hover, &.hover': {
-              background: 'rgba(255, 255, 255, 0.2)',
-              opacity: 1,
-            },
-            '&.hover': {
-              textDecoration: 'underline',
+              background: 'rgba(0, 0, 0, 1)',
+              color: '#fff',
+              borderBottom: 'solid 1px #fff',
             },
           },
         },

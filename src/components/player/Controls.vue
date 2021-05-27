@@ -17,8 +17,14 @@
         @click="$player.togglePlay"
       >
         <Icon
+          v-show="$player.isPaused"
           :size="42"
-          :name="$player.isPaused ? 'play' : 'pause'"
+          name="play"
+        />
+        <Icon
+          v-show="!$player.isPaused"
+          :size="42"
+          name="pause"
         />
       </button>
       <button
@@ -134,8 +140,12 @@ export default {
             margin: '0 4px',
             cursor: 'pointer',
             padding: '8px',
+            background: 'rgba(0, 0, 0, 0.5)',
+            textShadow: '0px 0 2px #000',
+            borderBottom: 'solid 1px transparent',
             '&:not(:disabled):hover': {
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: 'rgba(0, 0, 0, 1)',
+              borderBottom: 'solid 1px #fff',
             },
             '&:disabled': {
               cursor: 'not-allowed',
