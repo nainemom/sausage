@@ -8,30 +8,34 @@
         @click="prevCue"
       >
         <Icon
+          :class="$style.icon"
           :size="42"
           name="arrow-left"
         />
       </button>
       <button
-        :disabled="!!$player.lockedCues.length"
         @click="$player.togglePlay"
       >
         <Icon
           v-show="$player.isPaused"
+          :class="$style.icon"
           :size="42"
           name="play"
         />
         <Icon
           v-show="!$player.isPaused"
+          :class="$style.icon"
           :size="42"
           name="pause"
         />
       </button>
       <button
         :disabled="!$player.activeCues.length"
+        :actived="$player.lockedCues.length ? true : null"
         @click="toggleLock"
       >
         <Icon
+          :class="$style.icon"
           :size="42"
           name="lock-reset"
         />
@@ -41,6 +45,7 @@
         @click="nextCue"
       >
         <Icon
+          :class="$style.icon"
           :size="42"
           name="arrow-right"
         />
@@ -50,6 +55,7 @@
         @click="$player.stop"
       >
         <Icon
+          :class="$style.icon"
           :size="42"
           name="close"
         />
@@ -141,15 +147,18 @@ export default {
             cursor: 'pointer',
             padding: '8px',
             background: 'rgba(0, 0, 0, 0.5)',
-            textShadow: '0px 0 2px #000',
-            borderBottom: 'solid 1px transparent',
+            textShadow: '0px 0 3px #000',
+            border: 'solid 1px rgba(0, 0, 0, 0.1)',
+            borderRadius: '8px',
             '&:not(:disabled):hover': {
-              background: 'rgba(0, 0, 0, 1)',
-              borderBottom: 'solid 1px #fff',
+              background: 'rgba(0, 0, 0, 0.6)',
             },
             '&:disabled': {
               cursor: 'not-allowed',
               opacity: 0.4,
+            },
+            '&[actived], &:not(:disabled):active': {
+              boxShadow: 'inset 0px 2px 3px rgba(0, 0, 0, 0.8)',
             },
           },
         },
@@ -165,6 +174,9 @@ export default {
             margin: '0 8px',
           },
         },
+      }),
+      className('icon', {
+        marginBottom: '0 !important',
       }),
     ];
   },

@@ -111,7 +111,7 @@ export default {
         '& > *': {
           whiteSpace: 'pre-line',
           width: 'auto',
-          textShadow: '0 1px #000',
+          textShadow: '0px 0 3px #000',
           lineHeight: '2.5rem',
           fontSize: '1.8rem',
           fontWeight: 'bold',
@@ -119,16 +119,19 @@ export default {
         },
         '& > .content': {
           background: 'rgba(0, 0, 0, 0.5)',
+          border: 'solid 1px rgba(0, 0, 0, 0.1)',
+          borderRadius: '8px',
+          overflow: 'hidden',
+          padding: '8px',
           color: '#fff',
           '& > span': {
             padding: '4px 8px',
             cursor: 'pointer',
-            borderBottom: 'solid 1px transparent',
-            textShadow: '0px 0 2px #000',
+            textShadow: '0px 0 3px #000',
             '&:hover, &.hover': {
-              background: 'rgba(0, 0, 0, 1)',
+              background: 'rgba(0, 0, 0, 0.3)',
               color: '#fff',
-              borderBottom: 'solid 1px #fff',
+              textDecoration: 'underline',
             },
           },
         },
